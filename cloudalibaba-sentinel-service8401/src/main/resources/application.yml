@@ -1,0 +1,30 @@
+server:
+  port: 8401
+
+spring:
+  application:
+    name: cloudalibaba-sentinel-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #Nacos服务注册中心
+    sentinel:
+      transport:
+        dashboard: localhost:8080   #Sentinel Dashboard控制台服务地址
+        port: 8719
+      web-context-unify: false  #controller层的方法对service层调用不认为是用一个根链路 默认为true
+      datasource:
+        ds1:
+          nacos:
+            server-addr: localhost:8848
+            data-id: ${spring.application.name}
+            group-id: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow #com.alibaba.cloud.sentinel.datasource.RuleType
+        ds2:
+          nacos:
+            server-addr: localhost:8848
+            data-id: ${spring.application.name}
+            group-id: DEFAULT_GROUP
+            data-type: json
+            rule-type: degrade #com.alibaba.cloud.sentinel.datasource.RuleType

@@ -1,0 +1,17 @@
+#bootstrap.yml是系统级的，优先级更高
+#application.yml是用户级的资源配置项
+#bootstrap.yml比application.yml先加载的，优先级别更高
+spring:
+  #applicationName web display name
+  application:
+    name: cloud-payment-service
+  #SpringCloud Consul for Service Discovery
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+      config:
+        profile-separator: '-'  #default value is ",",replace "-"
+        format: YAML

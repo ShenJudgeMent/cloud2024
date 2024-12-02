@@ -1,0 +1,6 @@
+server:
+  port: 3377
+
+spring:
+  profiles:
+    active: prod #dev,prod,test分别代表开发环境，生产环境，测试环境

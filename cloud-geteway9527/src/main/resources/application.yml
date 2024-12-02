@@ -1,0 +1,31 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true #优先使用服务IP启动
+        service-name: ${spring.application.name}
+    gateway:
+      routes:
+        - id: pay_routh1
+          uri: lb://cloud-payment-service  #匹配提供服务的路由地址
+          predicates:
+            - Path=/pay/gateway/get/**  #断言，路径相匹配的进行路由
+#            - RemoteAddr=192.168.0.106/24
+#            - Host=**.atguigu.com
+#            - After=2024-11-30T09:56:20.633414600+08:00[Asia/Shanghai]  #这个时间点以后才能访问，适用于秒杀场景
+#            - Cookie=username,sc  #1、使用原生命令curl http://localhost/feign/pay/gateway/get/1 --cookie "username=sc"；2、使用postman
+#            - Header=X-Request-Id,\d+ #请求头要有X-Request-Id属性并且值为整数的正则表达式，测试方法1、curl http://localhost/feign/pay/gateway/get/1 -H "X-Request-Id:123456"
+
+        - id: pay_routh2
+          uri: lb://cloud-payment-service
+          predicates:
+            - Path=/pay/gateway/filter/**
+          filters:
+            - My=atguigu  #自定义含有条件的过滤器
